@@ -1,0 +1,363 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.image.*?>
+<?import de.jensd.fx.glyphs.fontawesome.*?>
+<?import javafx.scene.shape.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.text.*?>
+<?import javafx.scene.effect.*?>
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane fx:id="appPane" prefHeight="800.0" prefWidth="1000.0" style="-fx-border-color: black; -fx-border-width: 5 5 5 5; -fx-background-color: #958799;" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="GraphGui.GraphController">
+   <children>
+      <AnchorPane layoutX="1159.0" layoutY="136.0" prefHeight="990.0" prefWidth="198.0" style="-fx-border-color: black; -fx-background-color: #9DC7CC; -fx-border-width: 0 0 0 2;" AnchorPane.bottomAnchor="140.0" AnchorPane.rightAnchor="2.0" AnchorPane.topAnchor="0.0">
+         <children>
+            <ListView fx:id="adjacentNodes" layoutX="-42.0" layoutY="287.0" prefHeight="632.0" prefWidth="106.0" style="-fx-background-color: TRANSPARENT; -fx-border-color: black;" AnchorPane.bottomAnchor="335.0" AnchorPane.leftAnchor="2.0" AnchorPane.rightAnchor="2.0" AnchorPane.topAnchor="125.0" />
+            <ListView fx:id="nodesToVisit" layoutX="-52.0" layoutY="277.0" prefHeight="632.0" prefWidth="106.0" style="-fx-background-color: TRANSPARENT; -fx-border-color: black;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="2.0" AnchorPane.rightAnchor="2.0" AnchorPane.topAnchor="350.0" />
+            <Label alignment="CENTER" contentDisplay="CENTER" layoutX="5.0" layoutY="222.0" mouseTransparent="true" prefHeight="28.0" prefWidth="107.0" style="-fx-background-color: #BF8915; -fx-border-color: black;" text="VISITED NODES" textFill="WHITE" AnchorPane.leftAnchor="8.0" AnchorPane.rightAnchor="8.0" AnchorPane.topAnchor="320.0">
+               <effect>
+                  <DropShadow color="#fcbaba">
+                     <input>
+                        <InnerShadow color="#f2d1d1" />
+                     </input>
+                  </DropShadow>
+               </effect>
+               <font>
+                  <Font name="OCR-A II" size="12.0" />
+               </font>
+            </Label>
+            <HBox layoutX="-16.0" layoutY="37.0" prefHeight="30.0" prefWidth="200.0" spacing="3.0" AnchorPane.leftAnchor="2.0" AnchorPane.rightAnchor="2.0" AnchorPane.topAnchor="65.0">
+               <children>
+                  <TextField fx:id="nodeXLoc" alignment="CENTER" promptText="X" />
+                  <TextField fx:id="nodeYLoc" alignment="CENTER" promptText="Y" />
+                  <TextField fx:id="nodeZLoc" alignment="CENTER" promptText="Z" />
+                  <Button fx:id="updateNodeLocation" minWidth="-Infinity" mnemonicParsing="false" prefWidth="20.0" style="-fx-background-color: GREEN;">
+                     <effect>
+                        <InnerShadow color="#eeebeb" />
+                     </effect>
+                  </Button>
+               </children>
+               <effect>
+                  <DropShadow />
+               </effect>
+            </HBox>
+            <TextField fx:id="nodeID" alignment="CENTER" layoutX="12.0" layoutY="40.0" prefHeight="25.0" prefWidth="178.0" promptText="NODE ID" AnchorPane.leftAnchor="2.0" AnchorPane.rightAnchor="2.0" AnchorPane.topAnchor="33.0" />
+            <Label alignment="CENTER" contentDisplay="CENTER" layoutX="51.0" layoutY="95.0" mouseTransparent="true" prefHeight="28.0" prefWidth="107.0" style="-fx-background-color: #4F2D47; -fx-border-color: black;" text="ADJACENT NODES" textFill="WHITE" AnchorPane.leftAnchor="18.0" AnchorPane.rightAnchor="8.0" AnchorPane.topAnchor="95.0">
+               <effect>
+                  <DropShadow color="#fcbaba">
+                     <input>
+                        <InnerShadow color="#f2d1d1" />
+                     </input>
+                  </DropShadow>
+               </effect>
+               <font>
+                  <Font name="OCR-A II" size="12.0" />
+               </font>
+            </Label>
+            <Label alignment="CENTER" contentDisplay="CENTER" layoutX="64.0" layoutY="1.0" mouseTransparent="true" prefHeight="28.0" prefWidth="80.0" style="-fx-background-color: #43693C; -fx-border-color: black;" text="NODE INFO" textFill="WHITE" AnchorPane.topAnchor="1.0">
+               <effect>
+                  <DropShadow color="#fcbaba">
+                     <input>
+                        <InnerShadow color="#f2d1d1" />
+                     </input>
+                  </DropShadow>
+               </effect>
+               <font>
+                  <Font name="OCR-A II" size="12.0" />
+               </font>
+            </Label>
+            <Button fx:id="clear" layoutX="146.0" layoutY="4.0" mnemonicParsing="false" style="-fx-background-color: CRIMSON;" text="CLR" textFill="WHITE" AnchorPane.rightAnchor="2.0" AnchorPane.topAnchor="2.0">
+               <effect>
+                  <DropShadow>
+                     <input>
+                        <InnerShadow color="#dab8b8" />
+                     </input>
+                  </DropShadow>
+               </effect>
+            </Button>
+         </children>
+      </AnchorPane>
+      <SplitPane dividerPositions="0.99" orientation="VERTICAL" prefHeight="200.0" prefWidth="160.0" AnchorPane.bottomAnchor="140.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="200.0" AnchorPane.topAnchor="0.0">
+        <items>
+          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
+               <children>
+                  <TabPane fx:id="tab" prefHeight="970.0" prefWidth="890.0" style="-fx-background-color: #838F9C; -fx-border-color: RED; -fx-border-width: 2 2 2 2;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                     <tabs>
+                        <Tab text="3D">
+                           <content>
+                              <AnchorPane id="mainDisplay" layoutX="110.0" layoutY="10.0" prefHeight="961.0" prefWidth="899.0" style="-fx-border-color: BLACK; -fx-border-width: 2 2 2 2;" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="100.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="5.0">
+                                 <children>
+                                    <StackPane fx:id="threeDimensions" prefHeight="150.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                                 </children></AnchorPane>
+                           </content>
+                        </Tab>
+                        <Tab text="2D" />
+                     </tabs>
+                  </TabPane>
+               </children>
+            </AnchorPane>
+            <AnchorPane prefHeight="200.0" prefWidth="200.0">
+               <children>
+                  <StackPane fx:id="dpTable" prefHeight="150.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+               </children>
+            </AnchorPane>
+        </items>
+      </SplitPane>
+      <AnchorPane minHeight="-Infinity" minWidth="-Infinity" prefHeight="140.0" prefWidth="1060.0" style="-fx-border-color: BLACK; -fx-border-width: 2 0 0 0;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+         <children>
+            <TextField fx:id="distance" disable="true" layoutX="672.0" layoutY="64.0" prefHeight="25.0" prefWidth="107.0" promptText="Distance" style="-fx-background-color: #331B18; -fx-border-color: black;" AnchorPane.bottomAnchor="45.0" AnchorPane.rightAnchor="155.0">
+               <font>
+                  <Font name="OCR-A II" size="11.0" />
+               </font>
+               <effect>
+                  <DropShadow />
+               </effect>
+            </TextField>
+            <Label fx:id="startNode" layoutX="787.0" layoutY="34.0" prefHeight="20.0" prefWidth="145.0" style="-fx-background-color: YELLOW; -fx-border-color: black;" text="Start Node" textFill="#0d0000" wrapText="true" AnchorPane.bottomAnchor="85.0" AnchorPane.rightAnchor="2.0">
+               <effect>
+                  <InnerShadow color="#220a0a" height="62.51" radius="20.377499999999998">
+                     <input>
+                        <DropShadow color="#431e1e" height="26.93" radius="11.4825" spread="0.55" />
+                     </input>
+                  </InnerShadow>
+               </effect>
+               <font>
+                  <Font name="OCR-A II" size="12.0" />
+               </font>
+            </Label>
+            <Slider fx:id="animationSpeed" blockIncrement="30.0" layoutX="14.0" layoutY="58.0" majorTickUnit="10.0" minorTickCount="2" prefHeight="14.0" prefWidth="200.0" showTickLabels="true" showTickMarks="true" AnchorPane.bottomAnchor="45.0" AnchorPane.leftAnchor="30.0">
+               <effect>
+                  <DropShadow />
+               </effect>
+            </Slider>
+            <Label alignment="CENTER" contentDisplay="CENTER" layoutX="124.0" layoutY="9.0" mouseTransparent="true" prefHeight="28.0" prefWidth="150.0" style="-fx-background-color: #086C96; -fx-border-color: black;" text="ANIMATION SPEED" textFill="WHITE" AnchorPane.bottomAnchor="85.0" AnchorPane.leftAnchor="50.0">
+               <font>
+                  <Font name="OCR-A II" size="16.0" />
+               </font>
+               <effect>
+                  <DropShadow color="#fcbaba">
+                     <input>
+                        <InnerShadow color="#f2d1d1" />
+                     </input>
+                  </DropShadow>
+               </effect>
+            </Label>
+            <HBox layoutX="9.0" layoutY="90.0" spacing="3.0" style="-fx-background-color: #3D3842; -fx-border-color: black; -fx-border-width: 3 3 3 3;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+               <children>
+                  <TextField fx:id="width" alignment="CENTER" layoutX="144.0" layoutY="965.0" prefHeight="33.0" prefWidth="130.0" promptText="WIDTH" AnchorPane.leftAnchor="135.0" AnchorPane.topAnchor="955.0">
+                     <font>
+                        <Font name="ISOCP2" size="12.0" />
+                     </font>
+                     <effect>
+                        <InnerShadow />
+                     </effect>
+                  </TextField>
+                  <TextField fx:id="height" alignment="CENTER" layoutX="154.0" layoutY="975.0" prefHeight="33.0" prefWidth="130.0" promptText="HEIGHT" AnchorPane.leftAnchor="210.0" AnchorPane.topAnchor="955.0">
+                     <font>
+                        <Font name="ISOCP2" size="12.0" />
+                     </font>
+                     <effect>
+                        <InnerShadow />
+                     </effect>
+                  </TextField>
+                  <TextField fx:id="depth" alignment="CENTER" layoutX="164.0" layoutY="985.0" prefHeight="33.0" prefWidth="130.0" promptText="DEPTH" AnchorPane.leftAnchor="285.0" AnchorPane.topAnchor="955.0">
+                     <font>
+                        <Font name="ISOCP2" size="12.0" />
+                     </font>
+                     <effect>
+                        <InnerShadow />
+                     </effect>
+                  </TextField>
+                  <TextField fx:id="numOfNodes" alignment="CENTER" prefHeight="33.0" prefWidth="130.0" promptText="# OF NODES">
+                     <effect>
+                        <InnerShadow />
+                     </effect>
+                     <font>
+                        <Font name="ISOCP2" size="12.0" />
+                     </font>
+                  </TextField>
+                  <TextField fx:id="transmissionRange" alignment="CENTER" layoutX="174.0" layoutY="995.0" prefHeight="33.0" prefWidth="130.0" promptText="T-RANGE" AnchorPane.leftAnchor="360.0" AnchorPane.topAnchor="955.0">
+                     <font>
+                        <Font name="ISOCP2" size="12.0" />
+                     </font>
+                     <effect>
+                        <InnerShadow />
+                     </effect>
+                  </TextField>
+                  <TextField fx:id="numOfDataNodes" alignment="CENTER" layoutX="184.0" layoutY="1005.0" prefHeight="33.0" prefWidth="130.0" promptText="# OF DN" AnchorPane.leftAnchor="435.0" AnchorPane.topAnchor="955.0">
+                     <font>
+                        <Font name="ISOCP2" size="12.0" />
+                     </font>
+                     <effect>
+                        <InnerShadow />
+                     </effect>
+                  </TextField>
+                  <TextField fx:id="numOfPackets" layoutX="194.0" layoutY="1015.0" prefHeight="33.0" prefWidth="130.0" promptText="# OF BITS" AnchorPane.leftAnchor="510.0" AnchorPane.topAnchor="955.0">
+                     <font>
+                        <Font name="ISOCP2" size="12.0" />
+                     </font>
+                     <effect>
+                        <InnerShadow />
+                     </effect>
+                  </TextField>
+                  <TextField fx:id="capacity" prefHeight="33.0" prefWidth="130.0" promptText="CAPACITY">
+                     <font>
+                        <Font name="ISOCP2" size="12.0" />
+                     </font>
+                     <effect>
+                        <InnerShadow />
+                     </effect>
+                  </TextField>
+                  <TextField fx:id="networkStatus" alignment="CENTER" focusTraversable="false" layoutX="690.0" layoutY="965.0" mouseTransparent="true" prefHeight="33.0" prefWidth="300.0" style="-fx-background-color: #C70700; -fx-text-fill: WHITE;" text="NETWORK CONNECTION STATUS" AnchorPane.leftAnchor="685.0" AnchorPane.topAnchor="955.0">
+                     <effect>
+                        <DropShadow color="WHITE" height="0.0" radius="0.0" width="0.0">
+                           <input>
+                              <InnerShadow color="#eeeeee" height="9.24" radius="9.31" width="30.0" />
+                           </input>
+                        </DropShadow>
+                     </effect>
+                     <font>
+                        <Font name="ISOCP2" size="12.0" />
+                     </font>
+                  </TextField>
+                  <Button fx:id="generate" alignment="TOP_CENTER" contentDisplay="TOP" layoutX="606.0" layoutY="960.0" mnemonicParsing="false" prefHeight="32.0" prefWidth="129.0" style="-fx-background-color: GREEN;" text="Generate" textFill="WHITE" AnchorPane.leftAnchor="595.0" AnchorPane.topAnchor="955.0">
+                     <font>
+                        <Font name="ISOCP2" size="14.0" />
+                     </font>
+                     <effect>
+                        <InnerShadow />
+                     </effect>
+                  </Button>
+               </children>
+               <effect>
+                  <DropShadow color="#c35050" />
+               </effect>
+               <padding>
+                  <Insets left="10.0" />
+               </padding>
+            </HBox>
+            <Label fx:id="endNode" layoutX="787.0" layoutY="67.0" prefHeight="20.0" prefWidth="145.0" style="-fx-background-color: RED; -fx-border-color: black;" text="End Node" textFill="#0d0000" wrapText="true" AnchorPane.bottomAnchor="48.0" AnchorPane.rightAnchor="2.0">
+               <effect>
+                  <InnerShadow color="#220a0a" height="62.51" radius="20.377499999999998">
+                     <input>
+                        <DropShadow color="#431e1e" height="26.93" radius="11.4825" spread="0.55" />
+                     </input>
+                  </InnerShadow>
+               </effect>
+               <font>
+                  <Font name="OCR-A II" size="12.0" />
+               </font>
+            </Label>
+            <Button fx:id="play" layoutX="326.0" layoutY="19.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="57.0" style="-fx-background-color: RED;" text="Play" textFill="#f8f8f8" AnchorPane.bottomAnchor="45.0" AnchorPane.leftAnchor="250.0">
+               <font>
+                  <Font name="OCR-A II" size="14.0" />
+               </font>
+               <effect>
+                  <InnerShadow>
+                     <input>
+                        <DropShadow height="38.79" radius="14.4475" />
+                     </input>
+                  </InnerShadow>
+               </effect>
+            </Button>
+            <Button fx:id="replay" layoutX="323.0" layoutY="64.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="75.0" style="-fx-background-color: ORANGE;" text="REPLAY" textFill="#f8f8f8" AnchorPane.bottomAnchor="45.0" AnchorPane.leftAnchor="320.0">
+               <effect>
+                  <InnerShadow>
+                     <input>
+                        <DropShadow height="38.79" radius="14.4475" />
+                     </input>
+                  </InnerShadow>
+               </effect>
+               <font>
+                  <Font name="OCR-A II" size="13.0" />
+               </font>
+            </Button>
+            <Button fx:id="reset" layoutX="412.0" layoutY="51.0" mnemonicParsing="false" prefHeight="24.0" prefWidth="65.0" style="-fx-background-color: RED;" text="Reset" textFill="#f8f8f8" AnchorPane.bottomAnchor="45.0" AnchorPane.leftAnchor="405.0">
+               <effect>
+                  <InnerShadow color="#4a4242" height="56.58" radius="18.895">
+                     <input>
+                        <DropShadow height="38.79" radius="14.4475" />
+                     </input>
+                  </InnerShadow>
+               </effect>
+               <font>
+                  <Font name="OCR-A II" size="14.0" />
+               </font>
+            </Button>
+            <Label layoutX="481.0" layoutY="46.0" style="-fx-background-color: BLACK; -fx-border-color: WHITE;" text="BACKGROUND COLOR" textFill="WHITE" wrapText="true" AnchorPane.bottomAnchor="110.0" AnchorPane.leftAnchor="248.0">
+               <font>
+                  <Font name="OCR-A II" size="12.0" />
+               </font>
+            </Label>
+            <ColorPicker fx:id="bgColor" layoutX="253.0" layoutY="32.0" prefHeight="27.0" prefWidth="108.0" promptText="Edge Color" style="-fx-background-color: #086C96; -fx-border-color: black;" AnchorPane.bottomAnchor="81.0" AnchorPane.leftAnchor="253.0" />
+            <MenuButton fx:id="samples" layoutX="796.0" layoutY="28.0" mnemonicParsing="false" prefHeight="28.0" prefWidth="99.0" style="-fx-border-color: White; -fx-background-color: GREEN;" text="Samples" textFill="WHITE" wrapText="true" AnchorPane.bottomAnchor="83.0" AnchorPane.rightAnchor="163.0">
+              <items>
+                <MenuItem fx:id="grid" mnemonicParsing="false" text="grid" />
+                <MenuItem fx:id="network" mnemonicParsing="false" text="Hexagon" />
+              </items>
+               <font>
+                  <Font name="OCR-A II" size="12.0" />
+               </font>
+               <effect>
+                  <InnerShadow height="32.86" radius="17.4125" width="38.79" />
+               </effect>
+            </MenuButton>
+            <Button fx:id="resetCam" layoutX="373.0" layoutY="31.0" mnemonicParsing="false" prefHeight="14.0" prefWidth="107.0" style="-fx-background-color: TEAL;" text="RESET CAM" textAlignment="CENTER" textFill="#f8f8f8" textOverrun="CLIP" wrapText="true" AnchorPane.bottomAnchor="83.0" AnchorPane.leftAnchor="370.0">
+               <effect>
+                  <InnerShadow>
+                     <input>
+                        <DropShadow height="38.79" radius="14.4475" />
+                     </input>
+                  </InnerShadow>
+               </effect>
+               <font>
+                  <Font name="OCR-A II" size="12.0" />
+               </font>
+            </Button>
+            <RadioButton fx:id="bfs" layoutX="660.0" layoutY="32.0" mnemonicParsing="false" style="-fx-background-color: #534582; -fx-border-color: white;" text="BFS" textFill="WHITE" AnchorPane.bottomAnchor="80.0" AnchorPane.rightAnchor="372.0">
+               <effect>
+                  <InnerShadow color="WHITE" />
+               </effect>
+            </RadioButton>
+            <RadioButton fx:id="prim" layoutX="653.0" layoutY="69.0" mnemonicParsing="false" style="-fx-background-color: #E34602; -fx-border-color: white;" text="PRIM" textFill="WHITE" AnchorPane.bottomAnchor="45.0" AnchorPane.rightAnchor="365.0">
+               <effect>
+                  <InnerShadow color="WHITE" />
+               </effect>
+            </RadioButton>
+            <RadioButton fx:id="dijkstra" layoutX="717.0" layoutY="68.0" mnemonicParsing="false" style="-fx-background-color: #C710AF; -fx-border-color: white;" text="DIJKSTRA" textFill="WHITE" AnchorPane.bottomAnchor="45.0" AnchorPane.rightAnchor="280.0">
+               <effect>
+                  <InnerShadow color="WHITE" />
+               </effect>
+            </RadioButton>
+            <RadioButton fx:id="dfs" layoutX="737.0" layoutY="32.0" mnemonicParsing="false" style="-fx-background-color: #362F1F; -fx-border-color: white;" text="DFS" textFill="WHITE" AnchorPane.bottomAnchor="80.0" AnchorPane.rightAnchor="310.0">
+               <effect>
+                  <InnerShadow color="WHITE" />
+               </effect>
+            </RadioButton>
+            <RadioButton fx:id="bellManFord" layoutX="545.0" layoutY="36.0" mnemonicParsing="false" style="-fx-background-color: #666466; -fx-border-color: white;" text="Bellman-Ford" textFill="WHITE" AnchorPane.bottomAnchor="80.0" AnchorPane.rightAnchor="435.0">
+               <effect>
+                  <InnerShadow color="WHITE" />
+               </effect>
+            </RadioButton>
+            <TextField fx:id="kEdges" layoutX="495.0" layoutY="69.0" prefHeight="26.0" prefWidth="70.0" promptText="K - EDGES" AnchorPane.bottomAnchor="45.0" AnchorPane.rightAnchor="460.0">
+               <effect>
+                  <DropShadow />
+               </effect>
+            </TextField>
+            <Button fx:id="kEdgesButton" layoutX="605.0" layoutY="69.0" minWidth="-Infinity" mnemonicParsing="false" prefHeight="25.0" prefWidth="20.0" style="-fx-background-color: GREEN;" AnchorPane.bottomAnchor="46.0" AnchorPane.rightAnchor="435.0">
+               <effect>
+                  <DropShadow>
+                     <input>
+                        <InnerShadow color="#ddc8c8" />
+                     </input>
+                  </DropShadow>
+               </effect>
+            </Button>
+         </children>
+      </AnchorPane>
+   </children>
+</AnchorPane>

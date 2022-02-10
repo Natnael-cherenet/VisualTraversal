@@ -1,0 +1,331 @@
+while (nodeParent.get(parent) != null)
+                    {
+                        
+                        Node temp = nodeParent.get(parent);
+                        if (temp instanceof Sphere)
+                        {
+                            Cylinder edgeToTemp = (Cylinder) SPT.get(new Pair<>(temp, parent));
+//                            System.out.printf("[%s,%s]\t\t%s\n",temp.getId()== null? "null":temp.getId(),
+//                                    parent.getId()==null?"null":parent.getId(),
+//                                    edgeToTemp.getId()==null?"null":edge.getId());
+                            if(temp.getId() != null && parent.getId()!=null && edgeToTemp.getId() !=null)
+                            {
+                                path.add(String.format("%-47s%s\n",
+                                        "[" + temp.getId() + ","+parent.getId() + "]",
+                                        edgeToTemp.getId()));
+                                ;
+                            }
+                            Line l = new Line(temp.getTranslateX(), temp.getTranslateY(),
+                            parent.getTranslateX(), parent.getTranslateY());
+                            
+                            KeyFrame kf = new KeyFrame(Duration.millis(frameCount == 0 ? 1.25 : frameCount ),
+                                    e ->
+                                    {
+                                        Glow glow = new Glow();
+                                        glow.setLevel(0.9);
+
+                                        ((Sphere)temp).setMaterial(new PhongMaterial(Color.WHITE));
+                                        
+                                        edgeToTemp.setMaterial(new PhongMaterial(Color.valueOf("#641975")));
+                                        edgeToTemp.setRadius(0.5);
+                                        edgeToTemp.setEffect(glow);                                                                                
+                                    },
+                                new KeyValue(((Sphere) temp).radiusProperty(), 1.15, Interpolator.EASE_OUT));
+                            PathTransition pt = transitions.get(new Pair<>(temp, parent));
+                                        pt.setDuration(Duration.millis(frameCount == 0 ? 1000 : frameCount * 1000));
+                                        
+                                        
+                                        ss.add(pt);
+                            timeline2.getKeyFrames().add(kf);
+                            frames.add(kf);
+                                        
+
+                        }
+                       
+                        
+                        
+                        
+                         
+                        parent = temp;
+
+                        frameCount++;
+                    }
+                    KeyFrame kf = new KeyFrame(Duration.millis(frameCount == 0 ? 1.25 : frameCount),
+                            e ->
+                            {
+                                ((Sphere) getEnd()).setMaterial(new PhongMaterial(Color.WHITE));
+                                
+
+                            },new KeyValue(((Sphere) getEnd()).radiusProperty(), 1.15, Interpolator.EASE_OUT));
+                    timeline2.getKeyFrames().add(kf);
+                    frames.add(kf);
+                    Collections.reverse(timeline2.getKeyFrames());
+                    Collections.reverse(path);
+                    Collections.reverse(ss);
+                    SequentialTransition seqT = new SequentialTransition ();
+                    path.forEach(index -> System.out.println(index));
+                    ss.forEach(s->
+                    {
+                        seqT.getChildren().add(s);
+                    });                                      
+                    seqT.play();
+                                        
+										while(!q.isEmpty())
+        {
+            toExplore.clear();
+            start= q.remove();
+
+            CostSortedQueue bst= new CostSortedQueue();
+
+    //       
+
+            Edge startEdge= new Edge();
+            startEdge.setId("0");
+            distanceToNode.put(start,0.0);
+
+            bst.insert(new Pair<>(null,start), startEdge);
+            int step=0;
+            double counter=0;
+            HashMap<Pair<Node,Node>,Node> SPT= new HashMap<>();
+            while(!bst.isEmpty())
+            {
+
+                Node parentPrev= bst.lowestCost(bst.getRoot()).edgeVertices.getKey();
+                Node parent= bst.lowestCost(bst.getRoot()).edgeVertices.getValue();
+                Edge edge= bst.lowestCost(bst.getRoot()).e;
+                bst.deleteNetworkNode(bst.lowestCost(bst.getRoot()));            
+
+
+                if(!visited.get(parent))
+                {
+                    visited.put(parent, true);
+                    nodeParent.put(parent, parentPrev);
+                    currentNode = parent;
+                    if(parent.equals(getEnd()))
+                    {
+                        SPT.put(new Pair<>(parentPrev,parent), edge);
+
+                        System.out.println("###############################################################################################################");
+                        System.out.println("Destination Node Found.....");
+                        System.out.println("------------------------------");
+                        System.out.println("\t\tShortest Path To Destination");
+                        System.out.println("======================================================================");
+                        System.out.printf("%s%40s\n","\tVertices","Edge Cost");
+                        System.out.println("======================================================================");
+                        ArrayList<String> path = new ArrayList<>();
+                        while (nodeParent.get(parent) != null)
+                        {
+
+                            Node temp = nodeParent.get(parent);
+                            if (temp instanceof Sphere)
+                            {
+                                Edge edgeToTemp = (Edge) SPT.get(new Pair<>(temp, parent));
+    //                            System.out.printf("[%s,%s]\t\t%s\n",temp.getId()== null? "null":temp.getId(),
+    //                                    parent.getId()==null?"null":parent.getId(),
+    //                                    edgeToTemp.getId()==null?"null":edge.getId());
+                                if (temp.getId() != null && parent.getId() != null && edgeToTemp.getId() != null)
+                                {
+                                    path.add(String.format("%-47s%s\n",
+                                            "[" + temp.getId() + "," + parent.getId() + "]",
+                                            edgeToTemp.getId()));
+                                }
+                                KeyFrame kf2 = new KeyFrame(Duration.millis(frameCount == 0 ? 1.25 : frameCount),
+                                        e ->
+                                        {
+
+                                            ((Sphere) temp).setMaterial(new PhongMaterial(Color.WHITE));
+                                            edgeToTemp.setMaterial(new PhongMaterial(Color.MAGENTA));
+                                        }
+                                        ,new KeyValue(edgeToTemp.radiusProperty(), 0.5, Interpolator.EASE_BOTH), 
+                                         new KeyValue(((Sphere) temp).radiusProperty(), 1.5, Interpolator.EASE_IN));
+
+                                KeyFrame kf3 = new KeyFrame(Duration.millis(frameCount+5),
+                                               new KeyValue(((Sphere) temp).radiusProperty(), 1.25, Interpolator.EASE_OUT));
+
+                                timeline2.getKeyFrames().addAll(kf2, kf3);
+                                frames.add(kf2);
+                                frames.add(kf3);
+
+                            }
+
+
+                            parent = temp;
+
+                            frameCount+=10;
+                        }
+
+                        Collections.reverse(timeline2.getKeyFrames());
+                        KeyFrame kf = new KeyFrame(Duration.millis(frameCount),
+                                e ->
+                                {
+                                    ((Sphere) getEnd()).setMaterial(new PhongMaterial(Color.WHITE));
+                                },
+                                new KeyValue(((Sphere) getEnd()).radiusProperty(), 1.5, Interpolator.EASE_IN));
+                        timeline2.getKeyFrames().add(kf);
+                        frames.add(kf);
+                        Collections.reverse(path);
+                        path.forEach(index->System.out.println(index));
+                        System.out.println("TOTAL ENERGY COST: "+distanceToNode.get(getEnd()));
+                        break;
+
+                    }
+                    if(step>0)
+                    {
+                        if(currentNode instanceof Sphere)
+                        {
+                            HBox nodeInfo = new HBox();
+                            if (graphType.equalsIgnoreCase("network") || graphType.equalsIgnoreCase("gridNetwork"))
+                            {
+                                TextField x = new TextField();
+                                TextField y = new TextField();
+                                TextField z = new TextField();
+                                TextField adj = new TextField(); 
+                                x.setPrefWidth(20);
+                                y.setPrefWidth(20);
+                                z.setPrefWidth(20);
+                                nodeInfo.getChildren().addAll(x, y, z);
+
+                            }
+                            toExplore.addAll(nodeInfo);
+
+
+                            KeyFrame kf2 = new KeyFrame(Duration.millis(counter == 0 ? 1.25 : counter),
+                                    e ->
+                                    {
+            //                          
+                                        ((Sphere)currentNode).setMaterial(new PhongMaterial(Color.GREEN));
+                                        edge.setMaterial(new PhongMaterial(Color.GREEN));
+                                    }, new KeyValue(edge.radiusProperty(), 0.5, Interpolator.EASE_BOTH)
+                                     ,new KeyValue(((Sphere)currentNode).radiusProperty(), 1.5, Interpolator.EASE_IN));
+                            KeyFrame kf3 = new KeyFrame(Duration.millis(counter == 0 ? 1.25 : counter+6),
+                                    new KeyValue(((Sphere)currentNode).radiusProperty(), 1.25,Interpolator.EASE_OUT));
+                            timeline.getKeyFrames().addAll(kf2,kf3);
+                            frames.add(kf2);
+                            frames.add(kf3);
+                            SPT.put(new Pair<>(parentPrev,currentNode), edge);
+                            visited.put(edge,true);
+
+                        }
+
+
+                    }
+                    step++;
+
+                    for (int i = 0; i < adjacentNodes.get(parent).size(); i++)
+                    {
+
+                        Node child = adjacentNodes.get(parent).get(i);
+    //                    System.out.println(child.getId());
+                        Edge edgeToChild= (Edge) edgeToNodePairing.get(new Pair<>(parent,child));
+                        double distanceToNeighbor = edgeToChild.cost;
+                        double updateDistance = distanceToNode.get(parent) + distanceToNeighbor;
+
+
+                        if (child.getId().startsWith("DN"))
+                        {
+                            System.out.println(child.getId()+"'s STORAGE IS FULL\n"
+                                    + "RETRYING ANOTHER NODE.......\n");
+                            KeyFrame kf2 = new KeyFrame(Duration.millis(counter == 0 ? 1.25 : counter),
+                                    e ->
+                                    {
+                                        ((Sphere) child).setMaterial(new PhongMaterial(Color.YELLOW));
+                                        edgeToChild.setMaterial(new PhongMaterial(Color.BLACK));
+
+                                    });
+
+                            //                       
+                            timeline.getKeyFrames().addAll(kf2);
+                            frames.add(kf2);
+
+                            continue;
+                        }
+                        if (!visited.get(child))
+                        {
+                            nodeParent.put(child, parent);
+
+    //                        if (graphType.equalsIgnoreCase("grid"))
+    //                        {
+    //                            Point3D node1Location = new Point3D(getEnd().getTranslateX(), getEnd().getTranslateY(), getEnd().getTranslateZ());
+    //                            Point3D node2Location = new Point3D(child.getTranslateX(), child.getTranslateY(), child.getTranslateZ());
+    //                            edgeToChild.setId(String.format("%.2f",node1Location.distance(node2Location)));
+    //                        }
+                            if (updateDistance < distanceToNode.get(child))
+                            {
+    //                            System.out.printf("Distance to neighbor before update %s: %.2f\n", child.getId(), distanceToNode.get(child));
+
+                                distanceToNode.put(child, updateDistance);
+                                bst.insert(new Pair<>(parent, child), edgeToChild);
+                            }
+
+    //                            System.out.printf("Distance to neighbor after update %s: %.2f\n", child.getId(), distanceToNode.get(child));
+                            edgeToChild.setId(String.format("%.2f", distanceToNode.get(child)));
+                            if (child instanceof Sphere)
+                            {
+                                Material m = ((Sphere) currentNode).getMaterial();
+                                KeyFrame kf2 = new KeyFrame(Duration.millis(counter == 0 ? 1.25 : counter),
+                                        e ->
+                                        {
+                                            ((Sphere) child).setMaterial(new PhongMaterial(Color.BLUE));
+                                        }, new KeyValue(((Sphere) child).radiusProperty(), 1.5, Interpolator.EASE_OUT));
+                                timeline.getKeyFrames().add(kf2);
+                                frames.add(kf2);
+                                KeyFrame kf3 = new KeyFrame(Duration.millis(counter == 0 ? 1.25 : counter + 3),
+                                        e ->
+                                        {
+                                            ((Sphere) child).setMaterial(m);
+                                        },
+                                        new KeyValue(((Sphere) child).radiusProperty(), 1, Interpolator.EASE_OUT));
+                                timeline.getKeyFrames().add(kf3);
+                                frames.add(kf3);
+                            }
+
+                        } else if (!child.getId().startsWith("DNode"))
+                        {
+                            Material m = ((Sphere) currentNode).getMaterial();
+                            KeyFrame kf2 = new KeyFrame(Duration.millis(counter == 0 ? 1.25 : counter),
+                                    e ->
+                                    {
+                                        ((Sphere) child).setMaterial(new PhongMaterial(Color.MAGENTA));
+                                    }, new KeyValue(((Sphere) child).radiusProperty(), 1.5, Interpolator.EASE_OUT));
+                            timeline.getKeyFrames().add(kf2);
+                            frames.add(kf2);
+                            KeyFrame kf3 = new KeyFrame(Duration.millis(counter == 0 ? 1.25 : counter + 3),
+                                    e ->
+                                    {
+                                        ((Sphere) child).setMaterial(m);
+                                    },
+                                    new KeyValue(((Sphere) child).radiusProperty(), 1, Interpolator.EASE_OUT));
+                            timeline.getKeyFrames().add(kf3);
+                            frames.add(kf3);
+
+                        }
+
+                        counter += 10;
+
+
+
+
+
+
+
+                    }
+                }
+
+            }
+    //        if(getEnd() == null)
+    //        {
+                System.out.println("\n###############################################################################################################"
+                        + "\n\tAll  VISITED EDGES ");
+                System.out.println("======================================================================");
+                System.out.printf("%s%40s\n", "\tVertices", "Edge Cost");
+                System.out.println("======================================================================\n");
+                ArrayList<String> path= new ArrayList<>();
+
+                SPT.forEach((pair,edge)->
+                {                
+                    path.add(String.format("%-47s%s\n", "["+pair.getKey().getId()+","+pair.getValue().getId()+"]",edge.getId()));
+                });
+                Collections.reverse(path);
+
+                path.forEach(index->System.out.println(index));
+        }
